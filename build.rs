@@ -76,12 +76,21 @@ fn compile_lwip() {
         .include("src/lwip/custom")
         .include("src/lwip/include")
         .warnings(false)
+<<<<<<< HEAD
         .flag_if_supported("-Wno-everything");
     if let Some(sdk_include_path) = sdk_include_path() {
         build.include(sdk_include_path);
     }
     build.debug(true);
+<<<<<<< HEAD
     build.compile("liblwip"); // MARKER BEGIN - END Remove lib suffix
+=======
+    build.compile("liblwip");  // MARKER BEGIN - END Remove lib suffix
+=======
+        .flag_if_supported("-Wno-everything")
+        .compile("liblwip"); // MARKER BEGIN - END Remove lib suffix
+>>>>>>> 3ab85c9 (fix build on windows)
+>>>>>>> 9dae397 (fix build on windows)
 }
 
 fn generate_lwip_bindings() {
