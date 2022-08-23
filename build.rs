@@ -13,6 +13,7 @@ fn sdk_include_path_for(sdk: &str) -> String {
         .output()
         .expect("failed to execute xcrun");
 
+<<<<<<< HEAD
     let inc_path = Path::new(String::from_utf8_lossy(&output.stdout).trim()).join("usr/include");
 
     inc_path.to_str().expect("invalid include path").to_string()
@@ -31,6 +32,25 @@ fn sdk_include_path() -> Option<String> {
         "macos" => Some(sdk_include_path_for("macosx")),
         _ => None,
     }
+=======
+    let inc_path =
+        Path::new(String::from_utf8_lossy(&output.stdout).trim()).join("usr/include");
+
+    return inc_path.to_str().expect("invalid include path").to_string()
+}
+
+fn sdk_include_path() -> String {
+    let os = env::var("CARGO_CFG_TARGET_OS").unwrap();
+
+    if os == "ios" {
+        return sdk_include_path_for("iphoneos")
+    }
+    else if os == "macos" {
+        return sdk_include_path_for("macosx")
+    }
+
+    return "".to_string()
+>>>>>>> 8a2d8a8 (Fixed support for MacOS (#1))
 }
 
 fn compile_lwip() {
@@ -75,6 +95,7 @@ fn compile_lwip() {
         .file("src/lwiperr.c") // MARKER BEGIN - END Fixing the Windows builds
         .include("src/lwip/custom")
         .include("src/lwip/include")
+        .include(sdk_include_path())
         .warnings(false)
 <<<<<<< HEAD
         .flag_if_supported("-Wno-everything");
@@ -108,6 +129,7 @@ fn generate_lwip_bindings() {
         .clang_arg("-I./src/lwip/custom")
         .clang_arg("-Wno-everything")
         .layout_tests(false)
+<<<<<<< HEAD
         .parse_callbacks(Box::new(bindgen::CargoCallbacks));
     if arch == "aarch64" && os == "ios" {
         // https://github.com/rust-lang/rust-bindgen/issues/1211
@@ -117,6 +139,22 @@ fn generate_lwip_bindings() {
         builder = builder.clang_arg(format!("-I{}", sdk_include_path));
     }
     let bindings = builder.generate().expect("Unable to generate bindings");
+=======
+        .clang_arg(if arch == "aarch64" && os == "ios" {
+            // https://github.com/rust-lang/rust-bindgen/issues/1211
+            "--target=arm64-apple-ios"
+        } else {
+            ""
+        })
+        .clang_arg(if sdk_include_path.is_empty() {
+            "".to_string()
+        } else {
+            format!("-I{}", sdk_include_path)
+        })
+        .parse_callbacks(Box::new(bindgen::CargoCallbacks))
+        .generate()
+        .expect("Unable to generate bindings");
+>>>>>>> 8a2d8a8 (Fixed support for MacOS (#1))
 
     let mut out_path = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
     out_path = out_path.join("src");
