@@ -81,7 +81,7 @@ fn compile_lwip() {
         build.include(sdk_include_path);
     }
     build.debug(true);
-    build.compile("liblwip");  // MARKER BEGIN - END Remove lib suffix
+    build.compile("liblwip"); // MARKER BEGIN - END Remove lib suffix
 }
 
 fn generate_lwip_bindings() {
