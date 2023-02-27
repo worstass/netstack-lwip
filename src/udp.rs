@@ -1,11 +1,4 @@
-use std::{
-    collections::VecDeque,
-    io,
-    net::SocketAddr,
-    os::raw,
-    pin::Pin,
-    sync::{Arc, Mutex},
-};
+use std::{io, net::SocketAddr, os::raw, pin::Pin};
 
 use futures::stream::Stream;
 use futures::task::{Context, Poll, Waker};
@@ -15,7 +8,6 @@ use tokio::sync::mpsc::{channel, Receiver, Sender};
 
 use super::lwip::*;
 use super::util;
-use super::LWIPMutex;
 
 pub unsafe extern "C" fn udp_recv_cb(
     arg: *mut raw::c_void,
@@ -49,6 +41,7 @@ fn send_udp(
     data: &[u8],
 ) -> io::Result<()> {
     unsafe {
+        let _g = super::LWIP_MUTEX.lock();
         let pbuf =
             pbuf_alloc_reference(data.as_ptr() as *mut _, data.len() as _, pbuf_type_PBUF_REF);
         let src_ip = util::to_ip_addr_t(src_addr.ip());

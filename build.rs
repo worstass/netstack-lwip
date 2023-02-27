@@ -22,10 +22,10 @@ fn sdk_include_path() -> Option<String> {
     let os = env::var("CARGO_CFG_TARGET_OS").unwrap();
     let arch = env::var("CARGO_CFG_TARGET_ARCH").unwrap();
     match os.as_str() {
-        "ios" => match arch.as_str() {
-            "aarch64" => Some(sdk_include_path_for("iphoneos")),
-            "x86_64" => Some(sdk_include_path_for("iphonesimulator")),
-            _ => None,
+        "ios" => if arch == "x86_64" {
+            Some(sdk_include_path_for("iphonesimulator"))
+        } else {
+            Some(sdk_include_path_for("iphoneos"))
         }
         "ios-sim" => Some(sdk_include_path_for("iphonesimulator")),
         "macos" => Some(sdk_include_path_for("macosx")),
@@ -80,6 +80,7 @@ fn compile_lwip() {
     if let Some(sdk_include_path) = sdk_include_path() {
         build.include(sdk_include_path);
     }
+    build.debug(true);
     build.compile("liblwip");  // MARKER BEGIN - END Remove lib suffix
 }
 
