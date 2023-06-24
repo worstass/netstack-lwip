@@ -1,10 +1,6 @@
 [package]
 name = "netstack-lwip"
-<<<<<<< HEAD
 version = "0.3.4"
-=======
-version = "0.3.3"
->>>>>>> 424cf9a (v0.3.3)
 edition = "2021"
 build = "build.rs"
 
