@@ -3,3 +3,38 @@
 
 # IntelliJ IDE
 .idea
+<<<<<<< HEAD
+# Swap
+[._]*.s[a-v][a-z]
+!*.svg  # comment out if you don't need vector files
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+# Session
+Session.vim
+Sessionx.vim
+
+# Temporary
+.netrwhist
+*~
+# Auto-generated tag files
+tags
+# Persistent undo
+<<<<<<< HEAD
+<<<<<<< HEAD
+[._]*.un~
+=======
+[._]*.un~
+=======
+>>>>>>> 8a2d8a8 (Fixed support for MacOS (#1))
+>>>>>>> 3004592 (Fixed support for MacOS (#1))
+=======
+[._]*.un~
+=======
+>>>>>>> 8a2d8a8 (Fixed support for MacOS (#1))
+=======
+[._]*.un~
+>>>>>>> efb50e1 (format fix)
+>>>>>>> 5454cb7 (format fix)
